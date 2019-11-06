@@ -1,7 +1,7 @@
 # Docker Para Desenvolvedores e SysAdmin
 _Local: UFT (Reitoria)_
 
-_Instrutor: Aislan Max (aislan@uft.edu.br)_
+_Instrutor: Aislan Max (aislan[a]uft.edu.br)_
 
 Prática 1)
 * Instanciar mysql
@@ -92,8 +92,9 @@ Existem alguns drives de log que podem ser utilizados no docker:
 
 Criar link simbolico do arquivo de log para outra saida
 
-```
-ln -sf /dev/stdout /var
+```exemplo
+ln -sf /dev/stdout /var/log/apache2/access.log
+ln -sf /dev/stderr /var/log/apache2/error.log
 ```
 
 ### Problemas Comuns
@@ -171,4 +172,32 @@ services:
     image: redis
 volumes:
   logvolume01: {}
+```
+
+### Boas práticas
+- um app por container
+- instale apenas o que você precisa
+- revise quem tem acesso aos hosts do Docker
+- Use a versão mais recente
+- Evite rodar container como root
+
+
+### Criando imagens com Alpine
+
+O Alpine é uma distribuição criada exclusivamente para o Docker
+
+###### Parâmetros
+- add: adiciona pacotes
+- del: remove pacotes
+- fix: tenta reparar ou reinstalar um pacote
+- update: atualiza a lista de pacotes
+- info: imprime a lista de pacotes instalados ou disponíveis
+- search: pesquisa pacotes
+- upgrade: upgrade dos pacotes instalados
+- cache: operações de manutenção no cache local de repositório
+- version: comparar versões de pacotes instalados e disponíveis
+
+Para checar os arquivos dentro de uma imagem:
+```
+docker container run --rm -it <container> <comando>
 ```
