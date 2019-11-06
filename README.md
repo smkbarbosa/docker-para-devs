@@ -1,6 +1,7 @@
 # Docker Para Desenvolvedores e SysAdmin
 _Local: UFT (Reitoria)_
-_Prof: Aislan Max (aislan@uft.edu.br)_
+
+_Instrutor: Aislan Max (aislan@uft.edu.br)_
 
 Prática 1)
 * Instanciar mysql
