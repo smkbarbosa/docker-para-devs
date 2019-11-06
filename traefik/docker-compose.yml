@@ -16,8 +16,8 @@ services:
     depends_on:
       - db
     image: wordpress:latest
-    ports:
-      - "80"
+    #ports:
+    #  - "80"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
@@ -32,19 +32,20 @@ services:
     depends_on:
       - db
     image: phpmyadmin/phpmyadmin
-    ports:
-      - "80"
+    #ports:
+    #  - "80"
     restart: always
 
   traefik:
     image: traefik:1.7
+    command: -c /dev/null --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
     restart: always
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.toml:/traefik.toml
+      # - ./traefik.toml:/traefik.toml
 
 volumes:
   wordpress:
