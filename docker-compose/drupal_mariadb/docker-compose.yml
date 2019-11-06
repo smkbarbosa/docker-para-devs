@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - db_data:/var/lib/mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbdb
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+
+  drupal:
+    depends_on:
+      - db
+    image: drupal:latest
+    ports:
+      - "8005:80"
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profiles:/var/www/html/profiles
+      - ./drupal_themes:/var/www/html/themes
+      - drupal_sites:/var/www/html/sites
+    restart: always
+
+volumes:
+  drupal_modules:
+  drupal_profiles:
+  drupal_themes:
+  drupal_sites:
+  db_data:
