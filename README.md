@@ -201,3 +201,24 @@ Para checar os arquivos dentro de uma imagem:
 ```
 docker container run --rm -it <container> <comando>
 ```
+
+### Registry e DockerHub
+
+Para criar a tag da imagem:
+```
+docker image tag <imagem> <usuario>/<imagem>
+```
+
+Para enviar para o dockerhub:
+```
+docker login
+
+docker image push <usuario>/<imagem>
+```
+
+Se precisar manter uma cópia de algum repositório, para evitar possíveis atualizações pelos mantenedores.
+Nota: essa imagem é alguma que você já tenha feito o download
+```
+docker image tag <imagem>:<versao> <usuario>:<imagem>
+docker image push <usuario>/<imagem>
+```
