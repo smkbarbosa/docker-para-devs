@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -e
-set - start.sh "$@"
+
+/usr/local/bin/start.sh && "$@" 
+
+#set - start.sh "$@"
+
 exec "$@"
