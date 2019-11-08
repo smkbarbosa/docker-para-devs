@@ -204,6 +204,7 @@ docker container run --rm -it <container> <comando>
 
 ### Registry e DockerHub
 
+##### DockerHub
 Para criar a tag da imagem:
 ```
 docker image tag <imagem> <usuario>/<imagem>
@@ -222,3 +223,113 @@ Nota: essa imagem é alguma que você já tenha feito o download
 docker image tag <imagem>:<versao> <usuario>:<imagem>
 docker image push <usuario>/<imagem>
 ```
+
+##### Registry
+
+O registry2 é o sistema de repositório privado disponibilizado pelo Docker
+
+Instalar o registry:
+```
+docker container run -d -p 5000:5000 --name registry registry:2
+```
+
+Baixar a imagem do docker hub
+```
+docker pull alpine
+```
+
+Alterando a tag para enviar para o registry
+```
+docker image tag alpine localhost:5000/alpine 
+```
+
+Enviando 
+```
+docker push localhost:5000/alpine 
+```
+
+#### Criando um bundle de certificado
+
+```
+mv <certificado>.crt <certificado>.cer
+cat <certificado>.cer interdiate.pem > <certificado>.crt
+```
+
+### Docker Machine
+
+  O Docker machine é um app para gerenciar imagens em servidores remotos
+
+  Instalação: https://docs.docker.com/machine/install-machine/
+  
+  Dependências para testar em desenvolvimento (Linux): 
+  - Virtualbox
+
+  ```
+  docker-machine create -d virtualbox default
+  ```
+
+
+  ### Swarm
+  Permite a criação de clusters docker
+
+  - Utiliza rede do tipo **overlay**
+  - Nodes: manager / worker
+  - service:
+  - stack:
+  - node:
+  - secret: gerencia dados sensíveis
+
+ ###### Criando um nó docker
+  ```
+docker-machine create -d virtualbox manager
+docker-machine create -d virtualbox node1
+docker-machine create -d virtualbox node2
+  ```
+
+cria env para acessar manager
+```
+docker-machine env manager
+eval $(docker-machine env manager) ## Acessa o env do docker
+```
+
+iniciar o swarm
+```
+docker swarm init --advertise-addr=<ip do servidor>
+```
+
+Será gerado um token para adicionar as maquinas clientes deste manager.
+
+vamos iniciar os outros nodes
+
+```
+docker-machine env node01
+eval $(docker-machine env node01)
+docker swarm join --token <token> <ip>
+```
+```
+docker-machine env node02
+eval $(docker-machine env node02)
+docker swarm join --token <token> <ip>
+```
+
+#### docker stack e docker service
+
+
+
+se for usar linha de comando
+```
+docker service 
+```
+
+Se for usar docker-compose.yml
+```
+docker stack deploy --compose-file=<file>
+```
+
+- exemplo de paralelismo
+```
+docker service update --limit-cpu 0.3 --update-parallelism 1 ### Limite de cpu=0.3 | Paralelismo=1
+docker service update --limit-cpu 0.3 --update-parallelism 2 ### Limite de cpu=0.3 | Paralelismo=2
+
+```
+
